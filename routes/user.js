@@ -211,8 +211,12 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user.userId }, "secret-key");
     res.send({
       token,
+      nickname: user.nickname,
+      userId: user.userId, 
+      userIcon: user.userIcon,
       ok: true,
     });
+    console.log(user.userIcon)
   } catch (err) {
     console.log(err);
     res.status(401).send({
