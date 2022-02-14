@@ -237,7 +237,7 @@ router.get("/auth", authMiddleware, async (req, res) => {
 });
 
 //일부 유저 정보 불러오기
-router.get("/users", authMiddleware, async (req, res) => {
+router.get("/user", authMiddleware, async (req, res) => {
   const user = await User.aggregate([
     { $sample: { size: 6 } },
     { $project: { email: 1, git: 1, blog: 1, nickname: 1, userIcon: 1 } },
