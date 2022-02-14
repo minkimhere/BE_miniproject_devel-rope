@@ -12,7 +12,7 @@ const emailUsersSchema = Joi.object({
 });
 
 //이메일 중복확인
-router.post("/join/check", async (req, res) => {
+router.post("/join/emailCheck", async (req, res) => {
   try {
     const {email} = await emailUsersSchema.validateAsync(req.body);
     const existEmail = await User.find({ email });
@@ -44,7 +44,7 @@ const nicknameUsersSchema = Joi.object({
 });
 
 //닉네임 중복확인
-router.post("/join/check", async (req, res) => {
+router.post("/join/nicknameCheck", async (req, res) => {
   try {
     const {nickname} = await nicknameUsersSchema.validateAsync(req.body);
     const existNickname = await User.find({ nickname });
