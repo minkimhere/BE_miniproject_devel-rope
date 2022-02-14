@@ -107,33 +107,33 @@ router.post("/join", async (req, res) => {
     // const email = await emailUsersSchema.validateAsync(req.body);
     // const nickname = await nicknameUsersSchema.validateAsync(req.body);
 
-    const existEmail = await User.find({ email });
-    const existNickname = await User.find({ nickname });
-    if (existEmail.length) {
-      res.status(401).send({
-        ok: false,
-        errorMessage: "이미 사용된 이메일입니다. 😯",
-      });
-      return;
-    } else {
-      res.status(201).send({
-        ok:true,
-        message: "사용하실 수 있는 이메일입니다 😏",
-      });
-    }
+    // const existEmail = await User.find({ email });
+    // const existNickname = await User.find({ nickname });
+    // if (existEmail.length) {
+    //   res.status(401).send({
+    //     ok: false,
+    //     errorMessage: "이미 사용된 이메일입니다. 😯",
+    //   });
+    //   return;
+    // } else {
+    //   res.status(201).send({
+    //     ok:true,
+    //     message: "사용하실 수 있는 이메일입니다 😏",
+    //   });
+    // }
 
-    if (existNickname.length) {
-      res.status(401).send({
-        ok:false,
-        errorMessage: "이미 사용된 닉네임입니다. 😯",
-      })
-      return;
-    } else {
-      res.status(201).send({
-        ok:true,
-        message: "사용하실 수 있는 닉네임입니다 😏",
-      });
-    }
+    // if (existNickname.length) {
+    //   res.status(401).send({
+    //     ok:false,
+    //     errorMessage: "이미 사용된 닉네임입니다. 😯",
+    //   })
+    //   return;
+    // } else {
+    //   res.status(201).send({
+    //     ok:true,
+    //     message: "사용하실 수 있는 닉네임입니다 😏",
+    //   });
+    // }
     
 //   } catch (err) {
 //     console.log(err);
