@@ -147,24 +147,24 @@ router.post("/join", async (req, res) => {
 //   /(blog\.naver\.com\/)|(tistory\.com)|(github\.blog)|(velog\.io\/)/g;
 // const gitRegExp = /(github.com\/)/g;
 
-if (!blogRegExp.test(blog)) {
-  console.log(blog)
-  res.status(401).send({
-    ok: false,
-    errorMessage:
-      "블로그는 네이버/티스토리/깃허브블로그/벨로그만 사용하실 수 있습니다. 😯",
-  });
-  return;
-}
+// if (!blogRegExp.test(blog)) {
+//   console.log(blog)
+//   res.status(401).send({
+//     ok: false,
+//     errorMessage:
+//       "블로그는 네이버/티스토리/깃허브블로그/벨로그만 사용하실 수 있습니다. 😯",
+//   });
+//   return;
+// }
 
-if (!gitRegExp.test(git)) {
-  res.status(401).send({
-    ok: false,
-    errorMessage:
-      "올바른 깃허브 프로필 주소를 입력해 주세요. ex) github.com/example ",
-  });
-  return;
-}
+// if (!gitRegExp.test(git)) {
+//   res.status(401).send({
+//     ok: false,
+//     errorMessage:
+//       "올바른 깃허브 프로필 주소를 입력해 주세요. ex) github.com/example ",
+//   });
+//   return;
+// }
     await User.create({ email, nickname, password, git, blog, userIcon });
     res.status(200).send({
       ok: true,
