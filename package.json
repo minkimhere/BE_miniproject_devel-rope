@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app"
   },
-  "author": "SUZY",
+  "author": "Devel-rope",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
