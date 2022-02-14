@@ -235,7 +235,10 @@ router.post("/login", async (req, res) => {
 router.get("/auth", authMiddleware, async (req, res) => {
   const { user } = res.locals;
   res.send({
-    user,
+    email: user.useremail,
+    nickname: user.nickname,
+    userId: user.userId, 
+    userIcon: user.userIcon,
     result: "ok",
   });
 });
