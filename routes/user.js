@@ -143,9 +143,9 @@ router.post("/join", async (req, res) => {
 //   })
 // }
 
-const blogRegExp =
-  /(blog\.naver\.com\/)|(tistory\.com)|(github\.blog)|(velog\.io\/)/g;
-const gitRegExp = /(github.com\/)/g;
+// const blogRegExp =
+//   /(blog\.naver\.com\/)|(tistory\.com)|(github\.blog)|(velog\.io\/)/g;
+// const gitRegExp = /(github.com\/)/g;
 
 if (!blogRegExp.test(blog)) {
   console.log(blog)
