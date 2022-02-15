@@ -47,6 +47,30 @@ router.get("/comment/:postId", async (req, res) => {
   }
 });
 
+// 댓글수정
+router.put("/comment/:commentId", authMiddleware, async (req, res) => {
+  try {
+    const { comment } = req.body; // 댓글
+    const { commentId } = req.params; // 댓글 번호 *url은 스트링이라 디비값이랑 비교할 때 Number로 해줘야 함.
+    const userId = res.locals.users.userId; // 로그인 정보에 담아놓은 userId
+
+    const [findComment] = await Comment.find({ commentId: commentId }); // 댓글번호로 현재 댓글 찾기
+    const commentUserId = findComment.userId; // 현재 댓글의 userId
+
+    if (userId === commentUserId) {
+      await Comment.updateOne(
+        { commentId: Number(commentId) },
+        { $set: { comment } }
+      );
+      res.json({ ok: true, message: "수정 성공" });
+    } else {
+      res.json({ ok: false, message: "수정 실패" });
+    }
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
 // 댓글삭제
 router.delete("/comment/:commentId", authMiddleware, async (req, res) => {
   const { commentId } = req.params;
@@ -60,6 +84,8 @@ router.delete("/comment/:commentId", authMiddleware, async (req, res) => {
     if (userId === commentUserId && comment.length) {
       await Comment.deleteOne({ commentId: commentId });
       res.json({ ok: true, message: "삭제 성공" });
+    } else {
+      res.json({ ok: false, message: "삭제 실패" });
     }
   } catch (error) {
     res.status(400).json({ ok: false, message: "삭제 실패" });
