@@ -14,8 +14,8 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
     if (!comment) {
       return res.status(400).send({ ok: false, message: "등록 실패" });
     }
-    await Comment.create({ userId, comment, nickname, postId, userIcon });
-    res.json({ ok: true, message: "등록 성공"});
+    const result = await Comment.create({ userId, comment, nickname, postId, userIcon });
+    res.json({ ok: true, message: "등록 성공", commentId : result.commentId});
   } catch (error) {
     res.status(400).json({ ok: false, message: "등록 실패" });
     console.log(`${error}에러로 인해 댓글쓰기가 실패했습니다.`);
