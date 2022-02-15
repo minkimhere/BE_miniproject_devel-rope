@@ -1,28 +1,31 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose)
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const postSchema = new mongoose.Schema({
-    nickname: {
-        type: String,
-        required: true
-    },
-    userIcon: {
-        type:String
-    },
-    content: {
-        type: String
-    },
-    imgUrl: {
-        type: String
-    },
-    date: {
-        type: String
-    },
-    comment_cnt: {
-        type: Number
-    }
+  userId: {
+    type: Number,
+  },
+  nickname: {
+    type: String,
+    required: true,
+  },
+  userIcon: {
+    type: String,
+  },
+  content: {
+    type: String,
+  },
+  imgUrl: {
+    type: String,
+  },
+  date: {
+    type: String,
+  },
+  comment_cnt: {
+    type: Number,
+  },
 });
 
-postSchema.plugin(AutoIncrement, {inc_field: 'postId'});
+postSchema.plugin(AutoIncrement, { inc_field: "postId" });
 
 module.exports = mongoose.model("Post", postSchema);
