@@ -59,7 +59,7 @@ router.get("/detail/:postId", async (req, res) => {
       console.log( postId);
       console.log("111넘버postId", Number(postId)  );
       const detail = await Post.findOne({ postId: Number(postId) });
-      const userIcon = res.locals.users.userIcon // 로컬에서 userIcon 찾기 
+      const userIcon = detail.userIcon // 로컬에서 userIcon 찾기 
       
       res.status(200).json({
         ok: true,
