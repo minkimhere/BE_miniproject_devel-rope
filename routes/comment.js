@@ -7,9 +7,9 @@ const authMiddleware = require("../middlewares/auth-middleware");
 router.post("/comment/:postId", authMiddleware, async (req, res) => {
   const { comment } = req.body; // 댓글, 댓글 번호
   const { postId } = req.params; // 게시글 번호
-  const userId = res.locals.users.userId; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
-  const nickname = res.locals.users.nickname; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
-  const userIcon = res.locals.users.userIcon; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
+  const userId = res.locals.users.userId; // 로그인 정보에 담아 놓은 유저 아이디
+  const nickname = res.locals.users.nickname; // 로그인 정보에 담아놓은 닉네임
+  const userIcon = res.locals.users.userIcon; // 로그인 정보에 담아놓은 유저 아이콘
   try {
     if (!comment) {
       return res.status(400).send({ ok: false, message: "등록 실패" });
