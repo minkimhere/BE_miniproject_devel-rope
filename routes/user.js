@@ -233,8 +233,8 @@ router.post("/login", async (req, res) => {
 // }
 
 //내 로그인 정보 불러오기
-router.get("/auth", authMiddleware, async (req, res) => {
-  const { user } = res.locals;
+router.post("/auth", authMiddleware, async (req, res) => {
+  const user = res.locals.users
   res.send({
     email: user.email,
     nickname: user.nickname,
@@ -245,7 +245,7 @@ router.get("/auth", authMiddleware, async (req, res) => {
 });
 
 //일부 유저 정보 불러오기
-router.get("/user", authMiddleware, async (req, res) => {
+router.post("/user", authMiddleware, async (req, res) => {
   const user = await User.aggregate([
     { $sample: { size: 6 } },
     { $project: { email: 1, git: 1, blog: 1, nickname: 1, userIcon: 1 } },
