@@ -13,6 +13,7 @@ router.get("/post", async (req, res) => {
     const postId = post.postId;
     const comment = await Comment.find({ postId });
     const comment_cnt = comment.length;
+    
     await Post.updateOne(
       { postId: postId },
       { $set: { comment_cnt: comment_cnt } }

@@ -12,6 +12,9 @@ const CommentSchema = new mongoose.Schema({
   postId: {
     type: String,
   },
+  date : {
+    type: String,
+  },
 });
 
 // CommentSchema.virtual("userId").get(function () {
