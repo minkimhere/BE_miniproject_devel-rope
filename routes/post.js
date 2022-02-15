@@ -29,8 +29,10 @@ router.post("/post", authMiddleware, async (req, res) => {
   //db의 date 호출전 날짜 형식 맞추기   //2022-02-03 09:40:10 형식으로 출력
 const date = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, "");
   try {
-    await Post.create({ nickname, userIcon, content, imgUrl, date });
+    const result = await Post.create({ nickname, userIcon, content, imgUrl, date });
+    const postId = result.postId;
     res.status(200).json({
+      postId,
       ok: true,
       message: "생성 성공"
     });
@@ -41,6 +43,7 @@ const date = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " "
     });
   }
 });
+
 //Post 생성
 // 썬더 포스트생성 바디
 // {
