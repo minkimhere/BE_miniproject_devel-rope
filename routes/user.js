@@ -235,7 +235,6 @@ router.post("/login", async (req, res) => {
 //내 로그인 정보 불러오기
 router.post("/auth", authMiddleware, async (req, res) => {
   const user = res.locals.users
-  console.log(user)
   res.send({
     email: user.email,
     nickname: user.nickname,

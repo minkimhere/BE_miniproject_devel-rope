@@ -3,20 +3,13 @@ const User = require('../schemas/user');
 
 module.exports = (req, res, next) => {
     const { authorization } = req.headers;
-    const [tokenType, tokenValue] = authorization.split(' ');
-    // https://okky.kr/article/876611
-    // const [tokenType, tokenValue] = (authorization||'').split(' ');
-    if (tokenValue == 'null') {
-        res.locals.users = null;
-        next();
-        return;
-    }
-
-    if (tokenType !== 'Bearer') {
-        res.status(401).send({
-            errorMessage: '로그인 후 사용하세요 🙄'
-        });
-        return;
+    const [authType, authToken] = (authorization || '').split(' ');
+  
+    if (!authToken || authType !== 'Bearer') {
+      res.status(401).send({
+        errorMessage: '로그인 후 이용 가능한 기능입니다.',
+      });
+      return;
     }
 
     try {
