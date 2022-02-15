@@ -7,7 +7,7 @@ const authMiddleware = require("../middlewares/auth-middleware");
 router.get("/post", async (req, res) => {
   try {
     const post = await Post.find({}).sort("-date").exec();
-    const user = res.locals.user;
+    const user = res.locals.users;
     res.json({
       post, user
     });
