@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router(); //라우터 선언
 const Post = require("../schemas/post");
 const authMiddleware = require("../middlewares/auth-middleware");
-const Comment = require("../schemas/comment");
 // const path = require('path');
 
 
@@ -83,6 +82,8 @@ router.post("/post", authMiddleware, async (req, res) => {
   const nickname  = res.locals.users.nickname
   const userId = res.locals.users.userId 
   const comment_cnt = 0;
+console.log(typeof userIcon);
+
   //db의 date 호출전 날짜 형식 맞추기   //2022-02-03 09:40:10 형식으로 출력
 const date = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, "");
   try {

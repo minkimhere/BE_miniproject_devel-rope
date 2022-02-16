@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Comment = require("../schemas/comment");
+const Post = require("../schemas/post");
 const authMiddleware = require("../middlewares/auth-middleware");
 
 // 댓글쓰기.
