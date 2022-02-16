@@ -81,11 +81,23 @@ router.delete("/comment/:commentId", authMiddleware, async (req, res) => {
   try {
     const [findComment] = await Comment.find({ commentId: [commentId] });
     const commentUserId = findComment.userId; // db에 저장해놓은 userId
-    const comment = await Comment.find({ commentId: [commentId] });
+    const comment = await Comment.findOne(
+      { commentId: [commentId] },
+      { _id: false }
+    );
+    const postId = comment.postId;
 
-    if (userId === commentUserId && comment.length) {
+    if (userId === commentUserId) {
       await Comment.deleteOne({ commentId: commentId });
       res.json({ ok: true, message: "삭제 성공" });
+
+      //댓글 삭제시 댓글 카운트 취소
+      const existPost = await Post.findOne({ postId }, { _id: false });
+      comment_cnt = existPost.comment_cnt - 1;
+      await Post.updateOne(
+        { postId: postId },
+        { $set: { comment_cnt: comment_cnt } }
+      );
     } else {
       res.json({ ok: false, message: "삭제 실패" });
     }
