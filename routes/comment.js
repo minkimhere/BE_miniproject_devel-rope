@@ -3,7 +3,7 @@ const router = express.Router();
 const Comment = require("../schemas/comment");
 const authMiddleware = require("../middlewares/auth-middleware");
 
-// 댓글쓰기
+// 댓글쓰기.
 router.post("/comment/:postId", authMiddleware, async (req, res) => {
   const { comment } = req.body; // 댓글, 댓글 번호
   const { postId } = req.params; // 게시글 번호
