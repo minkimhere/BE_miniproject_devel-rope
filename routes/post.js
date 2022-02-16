@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router(); //라우터 선언
 const Post = require("../schemas/post");
 const authMiddleware = require("../middlewares/auth-middleware");
-const Comment = require("../schemas/comment");
 // const path = require('path');
 
 
