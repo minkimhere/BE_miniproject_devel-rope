@@ -227,8 +227,22 @@ router.post("/login", async (req, res) => {
 //썬더 로그인 바디 (master)
 // {
 //   "email": "email@email.com",
-//   "password": "asdfasdf"
+//   "password": "1234"
 // }
+// {
+//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY0NTAxNzA3OH0.6ll9sveFNVlVxPO1Uf-nng_36LoUEMwT60IFpbr6gMg",
+//   "email": "email@email.com",
+//   "nickname": "master",
+//   "userId": 1,
+//   "userIcon": "5",
+//   "ok": true
+// }
+
+
+
+
+
+
 
 //내 로그인 정보 불러오기
 router.get("/auth", authMiddleware, async (req, res) => {
