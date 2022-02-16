@@ -8,9 +8,9 @@ const authMiddleware = require("../middlewares/auth-middleware");
 router.post("/comment/:postId", authMiddleware, async (req, res) => {
   const { comment } = req.body; // 댓글, 댓글 번호
   const { postId } = req.params; // 게시글 번호
-  const userId = res.locals.users.userId; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
-  const nickname = res.locals.users.nickname; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
-  const userIcon = res.locals.users.userIcon; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
+  const userId = res.locals.users.userId; //닉네임 //로그인 정보에 담아놓은 userId
+  const nickname = res.locals.users.nickname; //닉네임 //로그인 정보에 담아놓은 닉네임
+  const userIcon = res.locals.users.userIcon; //닉네임 //로그인 정보에 담아놓은 userIcon
   //db의 date 호출전 날짜 형식 맞추기   //2022-02-03 09:40:10 형식으로 출력
   const date = new Date(+new Date() + 3240 * 10000)
     .toISOString()
@@ -20,7 +20,7 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
     if (!comment) {
       return res.status(400).send({ ok: false, message: "등록 실패" });
     }
-    await Comment.create({ userId, comment, nickname, postId, userIcon, date });
+    const result = await Comment.create({ userId, comment, nickname, postId, userIcon, date });
     const existPost = await Post.findOne({ postId }, { _id: false }); // 게시물 카운터
     console.log("existPost: " + existPost);
     comment_cnt = existPost.comment_cnt + 1;
@@ -29,7 +29,7 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
       { $set: { comment_cnt: comment_cnt } }
     );
 
-    res.json({ ok: true, message: "등록 성공" });
+    res.json({ ok: true, message: "등록 성공", commentId : result.commentId });
   } catch (error) {
     res.status(400).json({ ok: false, message: "등록 실패" });
     console.log(`${error}에러로 인해 댓글쓰기가 실패했습니다.`);
