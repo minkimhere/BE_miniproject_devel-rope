@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Comment = require("../schemas/comment");
+const Post = require("../schemas/post");
 const authMiddleware = require("../middlewares/auth-middleware");
 
 // 댓글쓰기.
@@ -10,16 +11,23 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
   const userId = res.locals.users.userId; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
   const nickname = res.locals.users.nickname; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
   const userIcon = res.locals.users.userIcon; //닉네임 //로그인에서 받아오는 user값 없는 동안 임시로 가져옴.
-  try { 
-    if (!comment) { 
-      return res.status(400).send({ ok: false, message: "등록 실패" }); 
-    } 
-    await Comment.create({ userId, comment, nickname, postId, userIcon });  
-    const existPost = await Post.findOne({postId}, { _id: false });  // 게시물 카운터
-console.log("existPost: " + existPost);      
-    comment_cnt = existPost.comment_cnt + 1;     
-    await Post.updateOne({postId:postId}, { $set: {comment_cnt:comment_cnt}}); 
-
+  //db의 date 호출전 날짜 형식 맞추기   //2022-02-03 09:40:10 형식으로 출력
+  const date = new Date(+new Date() + 3240 * 10000)
+    .toISOString()
+    .replace("T", " ")
+    .replace(/\..*/, "");
+  try {
+    if (!comment) {
+      return res.status(400).send({ ok: false, message: "등록 실패" });
+    }
+    await Comment.create({ userId, comment, nickname, postId, userIcon, date });
+    const existPost = await Post.findOne({ postId }, { _id: false }); // 게시물 카운터
+    console.log("existPost: " + existPost);
+    comment_cnt = existPost.comment_cnt + 1;
+    await Post.updateOne(
+      { postId: postId },
+      { $set: { comment_cnt: comment_cnt } }
+    );
 
     res.json({ ok: true, message: "등록 성공" });
   } catch (error) {

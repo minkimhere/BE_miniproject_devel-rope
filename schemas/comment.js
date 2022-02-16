@@ -12,6 +12,15 @@ const CommentSchema = new mongoose.Schema({
   postId: {
     type: String,
   },
+  userIcon : {
+    type : String,
+  },
+  nickname : {
+    type : String,
+  },
+  date : {
+    type : String,
+  }
 });
 
 // CommentSchema.virtual("userId").get(function () {
