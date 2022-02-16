@@ -24,6 +24,10 @@ const usersSchema = new mongoose.Schema({
     },
     userIcon: {
         type:String,
+    },
+
+    salt: {
+        type:String,
     }
 });
 
