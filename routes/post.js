@@ -88,7 +88,6 @@ const date = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " "
   try {
     const result = await Post.create({ userId, nickname, userIcon, content, imgUrl, date, comment_cnt });
     const postId = result.postId;
-    const content = result.content;
 
     res.status(200).json({
       postId,
