@@ -4,8 +4,6 @@ const User = require('../schemas/user');
 module.exports = (req, res, next) => {
     const { authorization } = req.headers;
     const [tokenType, tokenValue] = authorization.split(' ');
-    // https://okky.kr/article/876611
-    // const [tokenType, tokenValue] = (authorization||'').split(' ');
     if (tokenValue == 'null') {
         res.locals.users = null;
         next();

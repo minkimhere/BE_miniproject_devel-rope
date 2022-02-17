@@ -90,13 +90,6 @@ router.post("/join", async (req, res) => {
   try {
     const { email, nickname, git, blog, password, confirmpassword, blogtype } =
       await postUsersSchema.validateAsync(req.body);
-    // if (!(email || nickname || git || blog || password || confirmpassword || userIcon)) {
-    //   res.status(401).send({
-    //     ok: false,
-    //     errorMessage: "모든 항목을 입력해 주세요 🙄",
-    //   });
-    //   return;
-    // }
     if (password !== confirmpassword) {
       res.status(200).send({
         ok: false,
@@ -198,17 +191,6 @@ router.post("/join", async (req, res) => {
   }
 });
 
-// 썬더 회원가입 바디
-// {
-//   "email": "email1@email.com",
-//   "password": "asdfasdf",
-//   "confirmpassword": "asdfasdf",
-//   "nickname": "user1",
-//   "git": "github.com/git",
-//   "blog": "blog.tistory.com",
-//   "userIcon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmRlC2TYQZSkEqSX1a5TyCjr6pDQi4Iaig1A&usqp=CAU"
-// }
-
 const postAuthSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
@@ -261,19 +243,6 @@ router.post("/login", async (req, res) => {
     });
   }
 });
-//썬더 로그인 바디 (master)
-// {
-//   "email": "email@email.com",
-//   "password": "1234"
-// }
-// {
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY0NTAxNzA3OH0.6ll9sveFNVlVxPO1Uf-nng_36LoUEMwT60IFpbr6gMg",
-//   "email": "email@email.com",
-//   "nickname": "master",
-//   "userId": 1,
-//   "userIcon": "5",
-//   "ok": true
-// }
 
 //내 로그인 정보 불러오기
 router.get("/auth", authMiddleware, async (req, res) => {
