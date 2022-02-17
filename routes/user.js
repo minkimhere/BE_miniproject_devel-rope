@@ -42,7 +42,7 @@ router.post("/join/emailCheck", async (req, res) => {
     });
   }
 });
-  
+
 const nicknameUsersSchema = Joi.object({
   nickname: Joi.string().required(),
 });
@@ -75,7 +75,6 @@ router.post("/join/nicknameCheck", async (req, res) => {
   }
 });
 
-
 const postUsersSchema = Joi.object({
   email: Joi.string().required(),
   nickname: Joi.string().required(),
@@ -83,13 +82,13 @@ const postUsersSchema = Joi.object({
   confirmpassword: Joi.string().required(),
   git: Joi.string().required(),
   blog: Joi.string().required(),
-
+  blogtype: Joi.string().required(),
 });
 
 // 회원가입
 router.post("/join", async (req, res) => {
   try {
-    const { email, nickname, git, blog, password, confirmpassword } =
+    const { email, nickname, git, blog, password, confirmpassword, blogtype } =
       await postUsersSchema.validateAsync(req.body);
     // if (!(email || nickname || git || blog || password || confirmpassword || userIcon)) {
     //   res.status(401).send({
@@ -105,7 +104,71 @@ router.post("/join", async (req, res) => {
       });
       return;
     }
-    const rndInt = Math.floor(Math.random() * 5) + 1 // 랜덤한 유저아이콘
+
+    const gitRegExp = /(github\.com\/)/g;
+    if (!gitRegExp.test(git)) {
+      res.status(401).send({
+        ok: false,
+        errorMessage: "github.com/를 포함한 형식으로 입력해 주세요 😅",
+      });
+      return;
+    }
+
+    const blogRegExpVelog = /(velog\.io\/)/g
+    const blogRegExpTistory = /(tistory\.com)/g
+    const blogRegExpGithubblog = /(github\.blog)/g;
+    const blogRegExpNaver = /(blog\.naver\.com)/g;
+
+    switch (blogtype) {
+      case "velog":
+        if (!blogRegExpVelog.test(blog)) {
+          res.status(401).send({
+            ok: false,
+            errorMessage: "velog.io/를 포함한 형식으로 입력해 주세요 😅",
+          });
+          return;
+        }
+        break;
+
+      case "tistory":
+        if (!blogRegExpTistory.test(blog)) {
+          res.status(401).send({
+            ok: false,
+            errorMessage: "tistory.com를 포함한 형식으로 입력해 주세요 😅",
+          });
+          return;
+        }
+        break;
+
+      case "githubblog":
+        if (!blogRegExpGithubblog.test(blog)) {
+          res.status(401).send({
+            ok: false,
+            errorMessage: "github.blog를 포함한 형식으로 입력해 주세요 😅",
+          });
+          return;
+        }
+        break;
+
+      case "naver":
+        if (!blogRegExpNaver.test(blog)) {
+          res.status(401).send({
+            ok: false,
+            errorMessage: "blog.naver.com/를 포함한 형식으로 입력해 주세요 😅",
+          });
+          return;
+        }
+        break;
+
+        default:
+          res.status(401).send({
+            ok: false,
+            errorMessage: "올바른 형식이 아닙니다. 😥",
+          });
+          return;
+    }
+
+    const rndInt = Math.floor(Math.random() * 5) + 1; // 랜덤한 유저아이콘
     hasher({ password }, async (error, pw, salt, hash) => {
       if (error) {
         console.log(err);
@@ -118,33 +181,9 @@ router.post("/join", async (req, res) => {
         salt,
         git,
         blog,
-        userIcon:rndInt
+        userIcon: rndInt,
       });
     });
-
-    // const blogRegExp =
-    //   /(blog\.naver\.com\/)|(tistory\.com)|(github\.blog)|(velog\.io\/)/g;
-    // const gitRegExp = /(github.com\/)/g;
-
-    // if (!blogRegExp.test(blog)) {
-    //   console.log(blog)
-    //   res.status(401).send({
-    //     ok: false,
-    //     errorMessage:
-    //       "블로그는 네이버/티스토리/깃허브블로그/벨로그만 사용하실 수 있습니다. 😯",
-    //   });
-    //   return;
-    // }
-
-    // if (!gitRegExp.test(git)) {
-    //   res.status(401).send({
-    //     ok: false,
-    //     errorMessage:
-    //       "올바른 깃허브 프로필 주소를 입력해 주세요. ex) github.com/example ",
-    //   });
-    //   return;
-    // }
-    //  비밀번호 암호화
 
     res.status(200).send({
       ok: true,
@@ -180,8 +219,8 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = await postAuthSchema.validateAsync(req.body);
     const user = await User.findOne({ email }).exec();
-    const salt = user.salt
-    const userpassword = user.password
+    const salt = user.salt;
+    const userpassword = user.password;
     if (!user) {
       res.status(401).send({
         ok: false,
@@ -189,32 +228,30 @@ router.post("/login", async (req, res) => {
       });
       return;
     } else {
-     hasher({ password, salt },
-        async (error2, pw2, salt2, hash2) => {
-          if (error2) {
-            console.log(error2);
-            return;
-          }
-          if (userpassword === hash2) {
-            const token = jwt.sign({ userId: user.userId }, process.env.TOKENKEY);
-            res.send({
-              token,
-              email: user.email,
-              nickname: user.nickname,
-              userId: user.userId,
-              userIcon: user.userIcon,
-              ok: true,
-            });
-          }
-
-          if (userpassword !== hash2) {
-            res.status(401).send({
-              ok: false,
-              errorMessage: "이메일 또는 패스워드가 잘못되었습니다.",
-            });
-          }
+      hasher({ password, salt }, async (error2, pw2, salt2, hash2) => {
+        if (error2) {
+          console.log(error2);
+          return;
         }
-      );
+        if (userpassword === hash2) {
+          const token = jwt.sign({ userId: user.userId }, process.env.TOKENKEY);
+          res.send({
+            token,
+            email: user.email,
+            nickname: user.nickname,
+            userId: user.userId,
+            userIcon: user.userIcon,
+            ok: true,
+          });
+        }
+
+        if (userpassword !== hash2) {
+          res.status(401).send({
+            ok: false,
+            errorMessage: "이메일 또는 패스워드가 잘못되었습니다.",
+          });
+        }
+      });
     }
   } catch (err) {
     console.log(err);
@@ -238,12 +275,6 @@ router.post("/login", async (req, res) => {
 //   "ok": true
 // }
 
-
-
-
-
-
-
 //내 로그인 정보 불러오기
 router.get("/auth", authMiddleware, async (req, res) => {
   const user = res.locals.users;
@@ -261,7 +292,16 @@ router.get("/auth", authMiddleware, async (req, res) => {
 router.get("/user", authMiddleware, async (req, res) => {
   const user = await User.aggregate([
     { $sample: { size: 6 } },
-    { $project: { email: 1, git: 1, blog: 1, nickname: 1, userIcon: 1, userId: 1 } },
+    {
+      $project: {
+        email: 1,
+        git: 1,
+        blog: 1,
+        nickname: 1,
+        userIcon: 1,
+        userId: 1,
+      },
+    },
   ]);
   res.json({
     user,
@@ -271,7 +311,16 @@ router.get("/user", authMiddleware, async (req, res) => {
 //모든 유저 정보 불러오기
 router.get("/users", authMiddleware, async (req, res) => {
   const user = await User.aggregate([
-    { $project: {  email: 1, git: 1, blog: 1, nickname: 1, userIcon: 1, userId: 1 } },
+    {
+      $project: {
+        email: 1,
+        git: 1,
+        blog: 1,
+        nickname: 1,
+        userIcon: 1,
+        userId: 1,
+      },
+    },
   ]);
   res.json({
     user,
