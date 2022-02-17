@@ -4,15 +4,15 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000; // process.env.port||3000의 뜻은 process.env라른 객체에 port라는 설정이 있다면 그 속성을 사용하고 없다면 3000을 사용한다는 뜻이다.
 
-//cors모듈 사용
+//cors모듈 사용.
 // app.use(cors());
 // origin: Front End ip or url
 // app.use(cors({ origin: "http://localhost:3000" }));
 // app.use("*", cors());
 
+// origin: "http://localhost:3000",
 const corsOption = {
   origin: "http://devel-rope.site/",
-  // origin: "http://localhost:3000",
   credentials: true,
 };
 
