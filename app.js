@@ -17,12 +17,13 @@ const port = process.env.PORT || 3000; // process.env.port||3000의 뜻은 proce
 //   credentials: true,
 // };
 
-const corsOption = {
-  origin: "http://devel-rope.site.s3-website.ap-northeast-2.amazonaws.com/",
-  credentials: true,
-};
+// const corsOption = {
+//   origin: "http://devel-rope.site.s3-website.ap-northeast-2.amazonaws.com/",
+//   credentials: true,
+// };
 
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
+app.use(cors());
 
 //스키마 연결
 const connect = require("./schemas"); 
