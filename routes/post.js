@@ -82,12 +82,12 @@ router.post("/post", authMiddleware, async (req, res) => {
   const nickname  = res.locals.users.nickname
   const userId = res.locals.users.userId 
   const comment_cnt = 0;
-console.log(typeof userIcon);
+  const str = content.replace(/\n/g, '<br/>');
 
   //db의 date 호출전 날짜 형식 맞추기   //2022-02-03 09:40:10 형식으로 출력
 const date = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, "");
   try {
-    const result = await Post.create({ userId, nickname, userIcon, content, imgUrl, date, comment_cnt });
+    const result = await Post.create({ userId, nickname, userIcon, content:str, imgUrl, date, comment_cnt });
     const postId = result.postId;
     res.status(200).json({
       postId,
@@ -153,6 +153,7 @@ router.put("/item/:postId", authMiddleware, async (req, res) => {
   const { content, imgUrl } = req.body;
   const nickname = res.locals.users.nickname
   const existPost = await Post.findOne({ postId: Number(postId) });
+  const str = content.replace(/\n/g, '<br/>');
   if (existPost.nickname !== nickname) {
     return res.status(400).json({
       existPost,
@@ -160,7 +161,7 @@ router.put("/item/:postId", authMiddleware, async (req, res) => {
       message: "수정 실패"
     });
   } else if (existPost.nickname === nickname) {
-        await Post.updateOne({ postId: Number(postId) }, { $set: { content, imgUrl }});
+        await Post.updateOne({ postId: Number(postId) }, { $set: { content:str, imgUrl }});
     }
     res.status(200).json({
         ok: true,
