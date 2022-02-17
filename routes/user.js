@@ -21,7 +21,7 @@ router.post("/join/emailCheck", async (req, res) => {
     const { email } = await emailUsersSchema.validateAsync(req.body);
     const existEmail = await User.find({ email });
     if (existEmail.length) {
-      res.status(401).send({
+      res.status(200).send({
         ok: false,
         errorMessage: "이미 사용된 이메일입니다. 😯",
       });
@@ -36,7 +36,7 @@ router.post("/join/emailCheck", async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(401).send({
+    res.status(200).send({
       ok: false,
       errorMessage: "요청한 데이터 형식이 올바르지 않습니다.😥",
     });
@@ -53,7 +53,7 @@ router.post("/join/nicknameCheck", async (req, res) => {
     const { nickname } = await nicknameUsersSchema.validateAsync(req.body);
     const existNickname = await User.find({ nickname });
     if (existNickname.length) {
-      res.status(401).send({
+      res.status(200).send({
         ok: false,
         errorMessage: "이미 사용된 닉네임입니다. 😯",
       });
@@ -68,7 +68,7 @@ router.post("/join/nicknameCheck", async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(401).send({
+    res.status(200).send({
       ok: false,
       errorMessage: "요청한 데이터 형식이 올바르지 않습니다.😥",
     });
@@ -98,7 +98,7 @@ router.post("/join", async (req, res) => {
     //   return;
     // }
     if (password !== confirmpassword) {
-      res.status(401).send({
+      res.status(200).send({
         ok: false,
         errorMessage: "패스워드가  패스워드 확인란과 일치하지 않습니다. 😯",
       });
@@ -107,7 +107,7 @@ router.post("/join", async (req, res) => {
 
     const gitRegExp = /(github\.com\/)/g;
     if (!gitRegExp.test(git)) {
-      res.status(401).send({
+      res.status(200).send({
         ok: false,
         errorMessage: "github.com/를 포함한 형식으로 입력해 주세요 😅",
       });
@@ -122,7 +122,7 @@ router.post("/join", async (req, res) => {
     switch (blogtype) {
       case "velog":
         if (!blogRegExpVelog.test(blog)) {
-          res.status(401).send({
+          res.status(200).send({
             ok: false,
             errorMessage: "velog.io/를 포함한 형식으로 입력해 주세요 😅",
           });
@@ -132,7 +132,7 @@ router.post("/join", async (req, res) => {
 
       case "tistory":
         if (!blogRegExpTistory.test(blog)) {
-          res.status(401).send({
+          res.status(200).send({
             ok: false,
             errorMessage: "tistory.com를 포함한 형식으로 입력해 주세요 😅",
           });
@@ -142,7 +142,7 @@ router.post("/join", async (req, res) => {
 
       case "githubblog":
         if (!blogRegExpGithubblog.test(blog)) {
-          res.status(401).send({
+          res.status(200).send({
             ok: false,
             errorMessage: "github.blog를 포함한 형식으로 입력해 주세요 😅",
           });
@@ -152,7 +152,7 @@ router.post("/join", async (req, res) => {
 
       case "naver":
         if (!blogRegExpNaver.test(blog)) {
-          res.status(401).send({
+          res.status(200).send({
             ok: false,
             errorMessage: "blog.naver.com/를 포함한 형식으로 입력해 주세요 😅",
           });
@@ -161,7 +161,7 @@ router.post("/join", async (req, res) => {
         break;
 
         default:
-          res.status(401).send({
+          res.status(200).send({
             ok: false,
             errorMessage: "올바른 형식이 아닙니다. 😥",
           });
@@ -185,13 +185,13 @@ router.post("/join", async (req, res) => {
       });
     });
 
-    res.status(200).send({
+    res.status(201).send({
       ok: true,
       message: "회원가입이 성공적으로 완료되었습니다! 😉",
     });
   } catch (err) {
     console.log(err);
-    res.status(401).send({
+    res.status(200).send({
       ok: false,
       errorMessage: "모든 항목을 입력해 주세요 🙄",
     });
@@ -222,7 +222,7 @@ router.post("/login", async (req, res) => {
     const salt = user.salt;
     const userpassword = user.password;
     if (!user) {
-      res.status(401).send({
+      res.status(200).send({
         ok: false,
         errorMessage: "이메일 또는 패스워드가 잘못되었습니다.",
       });
@@ -235,7 +235,7 @@ router.post("/login", async (req, res) => {
         }
         if (userpassword === hash2) {
           const token = jwt.sign({ userId: user.userId }, process.env.TOKENKEY);
-          res.send({
+          res.status(200).send({
             token,
             email: user.email,
             nickname: user.nickname,
@@ -246,7 +246,7 @@ router.post("/login", async (req, res) => {
         }
 
         if (userpassword !== hash2) {
-          res.status(401).send({
+          res.status(200).send({
             ok: false,
             errorMessage: "이메일 또는 패스워드가 잘못되었습니다.",
           });
@@ -255,7 +255,7 @@ router.post("/login", async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(401).send({
+    res.status(200).send({
       ok: false,
       errorMessage: "요청한 데이터 형식이 올바르지 않습니다.😥",
     });
