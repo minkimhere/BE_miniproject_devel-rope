@@ -11,7 +11,8 @@ const port = process.env.PORT || 3000; // process.env.port||3000의 뜻은 proce
 // app.use("*", cors());
 
 const corsOption = {
-  origin: "http://localhost:3000",
+  origin: "http://www.devel-rope.site/",
+  // origin: "http://localhost:3000",
   credentials: true,
 };
 
