@@ -82,7 +82,7 @@ router.post("/post", authMiddleware, async (req, res) => {
   const nickname  = res.locals.users.nickname
   const userId = res.locals.users.userId 
   const comment_cnt = 0;
-  const str = content.replace(/\n/g, '<br/>');
+  const str = content.replace(/\n/g, '<br>');
 
   //db의 date 호출전 날짜 형식 맞추기   //2022-02-03 09:40:10 형식으로 출력
 const date = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, "");
@@ -151,9 +151,9 @@ router.get("/detail/:postId",  async (req, res) => {
 router.put("/item/:postId", authMiddleware, async (req, res) => {
   const { postId } = req.params;
   const { content, imgUrl } = req.body;
-  const nickname = res.locals.users.nickname
+  const nickname = res.locals.users.nickname;
   const existPost = await Post.findOne({ postId: Number(postId) });
-  const str = content.replace(/\n/g, '<br/>');
+  const str = content.replace(/\n/g, '<br>');
   if (existPost.nickname !== nickname) {
     return res.status(400).json({
       existPost,
