@@ -24,7 +24,7 @@
 [노션 바로가기](https://lofty-palladium-0d5.notion.site/2-SA-57c267cb80e8418791bd8e42a15d68d7)
 
 ## 와이어 프레임 
-![텍스트](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FOclKv%2FbtrtACX4X7Z%2Fy8DQBJMYKMPLKQ9hVgww6k%2Fimg.png "와이어프레임"){: width="100%" height="100%"}
+![텍스트](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FOclKv%2FbtrtACX4X7Z%2Fy8DQBJMYKMPLKQ9hVgww6k%2Fimg.png "와이어프레임")
 
 
 ## Back-end 기술 스택 및 개발 환경
@@ -47,7 +47,29 @@
  - AWS EC2 (Ubuntu 18.04LTS)
  - AWS S3
 
+ <br><br><br>
+ ## API 상세
 
+|                | Method | URL                                    | REQ                                           | RES    
+|----------------|--------|----------------------------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+|회원가입 | POST | /api/join | { email: password: nickname: git: blog: blogtype: } | { ‘ok’: true, message: ‘회원가입 성공’ } OR { ‘ok’: false, errorMessage:’회원가입 실패’ }
+|이메일 중복검사 | POST | /api/join/check | { email: } | { ‘ok’: true, message: ‘사용가능한 이메일입니다.’ } OR { ‘ok’: false, errorMessage:’이미 사용중인 이메일입니다.’ }
+|닉네임 중복검사 | POST | /api/join/check | { nickname: } |  { ‘ok’: true, message: ‘사용가능한 닉네임입니다.’ } OR { ‘ok’: false, errorMessage:’이미 사용중인 닉네임입니다.’ }
+|로그인 | POST | /api/login | { email: password: } | token: nickname: userId: userIcon: { 'ok':true, message:’로그인 성공’ } OR { ‘ok’: false, errorMessage:’로그인 실패’ }
+|전체 포스트 불러오기 |  GET  | /api/post | | { 'ok': true, result: [{ //imgUrl: userId: userIcon: postId: nickname: content: //replyNumber: //like_cnt: date: }] }
+|다른 일부 유저 관련 정보 불러오기 | GET | /api/user | { headers:{ authorization:token } headers: { "Authorization": Bearer ${localStorage.getItem("token")}, } | { 'ok': true, result: [{ userIcon: nickname: email: git: blog: }] }
+|다른 모든 유저 관련 정보 불러오기 | GET | /api/users | { headers:{ authorization:token } headers: { "Authorization": Bearer ${localStorage.getItem("token")}, } | { 'ok': true, result: [{ userIcon: nickname: email: git: blog: }] }
+|내 로그인 정보 불러오기 | GET | /api/auth |  { headers:{ authorization:token } headers: { "Authorization": Bearer ${localStorage.getItem("token")}, } | { 'ok': true, result: [{ email: userId: userIcon: nickname: }] }
+|post 생성 | POST | /api/post | { userId: nickname: content: userIcon: imgUrl: date: //comment_cnt: } | { ‘ok’: true, message: ‘생성 성공’ } OR { ‘ok’: false, message:’생성 실패’ }
+|post 불러오기 | GET | /api/detail:/:postId | { postId: } | { ‘ok’: true, result: [{ content: nickname: userId: userIcon: imgUrl: date: postId: //comment_cnt: }] }
+|post 수정하기 | PUT | /api/item/:postId | { content: userId: imgUrl: postId } | { ‘ok’: true, message: ‘수정 성공’, } OR { ‘ok’: false, message:’수정 실패’ }
+|post 삭제하기 | DELETE | api/item/:postId | { postId: } | { ‘ok’: true, message: ‘삭제 성공’ } OR { ‘ok’: false, message:’삭제 실패’ }
+|comment 불러오기 | GET | /api/comment/:postId | { postId: } | { ‘ok’: true, result: [{ comment: userId: nickname: postId: commentId: userIcon: date: }] }
+|comment 수정하기 | PUT | /api/comment/:commentId | { comment: } | { ‘ok’: true, message: ‘수정 성공’ } OR { ‘ok’: false, message:’수정 실패’ } 
+
+
+
+<br><br><br>
 ## 💬 Back-end
 - 이번 프로젝트는 주특기 주차를 마치고 처음으로 프론트엔드와 백엔드로 나눠서 진행한 프로젝트 입니다.
 - 우선적으로 주특기 주차에 배운 기본적인 CRUD기능의 구현에 집중하였고, 세부적으로 내실을 다지는데 집중하였습니다. 
@@ -59,7 +81,7 @@
 
 **❓ Why? mongoDB**
 
-1차 목표를 기본 CRUD 기능 구현과 프론트엔드와 백엔드의 아름다운 협업으로 하였고 추후에 기능을 추가할 계획을 세웠던 저희 프로젝트에서 RDBMS와 다르게 자유로이 데이터 구조를 잡을 수 있다는 특징이 있는 Document 기반 데이터베이스인 mongoDB가 가장 접합하다 판단하였습니다.
+1차 목표를 기본 CRUD 기능 구현과 프론트엔드와 백엔드의 아름다운 협업으로 하였고 추후에 기능을 추가할 계획을 세웠던 저희 프로젝트에서 RDBMS와 다르게 자유로이 데이터 구조를 잡을 수 있다는 특징이 있는 Document 기반 데이터베이스인 mongoDB가 가장 적합하다 판단하였습니다.
 
 **❓ Why? dotenv**
 
