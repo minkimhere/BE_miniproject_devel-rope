@@ -8,26 +8,26 @@
 - 개발을 하다가 부딪힌 문제를 공유하고 해답을 빠르게 찾을 수 있습니다.
 - 서로의 일상을 자유롭게 공유할 수 있습니다.
 
-## 제작 기간 및 팀원 소개
+## 📆제작 기간 및 팀원 소개👨‍💻👩‍💻
 2021-02-11 ~ 2021-02-17
 - 김민정 minkimhere : 댓글 및 서버 관련 기능 담당
 - 용주성 tacocat3 : 로그인/회원가입 관련 기능 담당
 - 박수지 suzyp0223 : 게시글 관련 기능 담당
 
-## Site
+## 🌎Website
 [사이트 바로가기](http://devel-rope.site/)
 
-## 데모 영상 링크
+## 🎬데모 영상 링크
 [데모영상 바로가기](https://youtu.be/LiMiTonWZqk)
 
-## 노션 설계 페이지
+## 📝노션 설계 페이지
 [노션 바로가기](https://lofty-palladium-0d5.notion.site/2-SA-57c267cb80e8418791bd8e42a15d68d7)
 
-## 와이어 프레임 
+## 📋와이어 프레임 
 ![텍스트](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FOclKv%2FbtrtACX4X7Z%2Fy8DQBJMYKMPLKQ9hVgww6k%2Fimg.png "와이어프레임")
 
 
-## Back-end 기술 스택 및 개발 환경
+## 🛠Back-end 기술 스택 및 개발 환경 🔨
 - JavaScript
 - Node.js
 - Express.js
@@ -48,7 +48,7 @@
  - AWS S3
 
  <br><br><br>
- ## API 상세
+ ## 🔗API 상세
 
 |                | Method | URL                                    | REQ                                           | RES    
 |----------------|--------|----------------------------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------|
